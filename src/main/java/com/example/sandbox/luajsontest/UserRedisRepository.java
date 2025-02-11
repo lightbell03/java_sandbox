@@ -16,10 +16,10 @@ public class UserRedisRepository {
 	private final RedisTemplate<String, String> redisTemplate;
 	private final ObjectMapper objectMapper;
 
-	public void put(String key, UserVo userVo) {
-		log.info("key = {}, value = {}", key, userVo);
+	public void put(String key, User user) {
+		log.info("key = {}, value = {}", key, user);
 		try {
-			String valueJson = objectMapper.writeValueAsString(userVo);
+			String valueJson = objectMapper.writeValueAsString(user);
 			log.info("converted value json = {}", valueJson);
 			redisTemplate.opsForValue().set(key, valueJson);
 		} catch (JsonProcessingException e) {

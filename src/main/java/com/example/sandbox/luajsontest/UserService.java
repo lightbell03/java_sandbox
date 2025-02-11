@@ -19,19 +19,19 @@ public class UserService {
 		return executor.executeScriptWithOutDeserialize(LuaScript.script(LocalDateTime.now()), List.of(id));
 	}
 
-	public UserResponseDto getUserWithDeserialize(String id) {
-		return executor.execute(LuaScript.script(LocalDateTime.now()), List.of(id));
+	public User getUserWithDeserialize(String id) {
+		return executor.execute(LuaScript.script(LocalDateTime.now()), User.class, List.of(id));
 	}
 
 	@PostConstruct
 	public void init() {
-		UserVo adminUser = UserVo.builder()
+		User adminUser = User.builder()
 			.userId("admin")
 			.password("password")
 			.roles(List.of("admin"))
 			.accessDateTime(LocalDateTime.now())
 			.build();
-		UserVo normalUser = UserVo.builder()
+		User normalUser = User.builder()
 			.userId("user")
 			.password("password")
 			.roles(Collections.emptyList())

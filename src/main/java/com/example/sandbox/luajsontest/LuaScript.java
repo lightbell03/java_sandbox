@@ -11,11 +11,12 @@ public class LuaScript {
 	public static String script(LocalDateTime accessDateTime) {
 		ScriptBuilder script = new ScriptBuilder();
 
-		script.append("local user = redis.call('GET', KEYS[0])");
-		script.append("user = cjson.encode(user)");
-		script.append("user['accessDateTime'] = %s", accessDateTime.toString());
+		script.append("local user = redis.call('GET', KEYS[1])");
 		script.append("user = cjson.decode(user)");
-		script.append("return redis.call('SET', KEYS[0], user)");
+		script.append("user.accessDateTime = '%s'", accessDateTime.toString());
+		script.append("user = cjson.encode(user)");
+		script.append("redis.call('SET', KEYS[1], user)");
+		script.append("return user");
 
 		return script.toString();
 	}

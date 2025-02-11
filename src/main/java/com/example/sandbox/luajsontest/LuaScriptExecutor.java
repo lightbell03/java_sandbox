@@ -21,10 +21,10 @@ public class LuaScriptExecutor {
 		return redisTemplate.execute(RedisScript.of(script, String.class), keyList);
 	}
 
-	public UserResponseDto execute(String script, List<String> keyList) {
+	public <R> R execute(String script, Class<R> clz, List<String> keyList) {
 		String userJson = redisTemplate.execute(RedisScript.of(script, String.class), keyList);
 		try {
-			return objectMapper.readValue(userJson, UserResponseDto.class);
+			return objectMapper.readValue(userJson, clz);
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);
 		}
