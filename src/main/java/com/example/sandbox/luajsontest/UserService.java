@@ -15,12 +15,12 @@ public class UserService {
 	private final LuaScriptExecutor executor;
 	private final UserRedisRepository userRedisRepository;
 
-	public Object getUserWithoutDeserialize() {
-		return null;
+	public Object getUserWithoutDeserialize(String id) {
+		return executor.executeScriptWithOutDeserialize(LuaScript.script(LocalDateTime.now()), List.of(id));
 	}
 
-	public UserResponseDto getUserWithDeserialize() {
-		return null;
+	public UserResponseDto getUserWithDeserialize(String id) {
+		return executor.execute(LuaScript.script(LocalDateTime.now()), List.of(id));
 	}
 
 	@PostConstruct

@@ -15,14 +15,11 @@ public class UserController {
 	private final UserService userService;
 
 	@GetMapping("/users/{id}")
-	public ResponseEntity<Object> getUserWithNoDeserialize(@PathVariable("id") String id, @RequestParam(value = "deserialize", defaultValue = "false") boolean deserialize) {
-
-		return null;
-	}
-
-	@GetMapping("/users/{id}/deserialize")
-	public ResponseEntity<UserResponseDto> getUserWithDeserialize(@PathVariable("id") String id) {
-
-		return null;
+	public ResponseEntity<? super UserResponseDto> getUserWithNoDeserialize(@PathVariable("id") String id, @RequestParam(value = "deserialize", defaultValue = "false") boolean deserialize) {
+		if (deserialize) {
+			return ResponseEntity.ok(userService.getUserWithDeserialize(id));
+		} else {
+			return ResponseEntity.ok(userService.getUserWithoutDeserialize(id));
+		}
 	}
 }
