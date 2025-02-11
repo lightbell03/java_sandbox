@@ -28,7 +28,7 @@ public class UserService {
 		User adminUser = User.builder()
 			.userId("admin")
 			.password("password")
-			.roles(List.of("admin"))
+			.roles(List.of(new StringWrapper("admin")))
 			.accessDateTime(LocalDateTime.now())
 			.build();
 		User normalUser = User.builder()
