@@ -25,14 +25,9 @@ public class RedisSubscriber implements MessageListener {
         // todo parameter 가 0개 인 경우
         if (parameterTypes.length == 1) {
             Class<?> type = parameterTypes[0];
-            ByteArrayInputStream bais = new ByteArrayInputStream(body);
             try {
-                ObjectInputStream objectInputStream = new ObjectInputStream(bais);
-                argument = type.cast(objectInputStream.readObject());
-            } catch (IOException e) {
-                // todo 예외 메시지
-                throw new IllegalArgumentException(e);
-            } catch (ClassNotFoundException e) {
+                argument = convertBodyToParameter(body, type);
+            } catch (IOException | ClassNotFoundException e) {
                 // todo 예외 메시지
                 throw new IllegalArgumentException(e);
             }
@@ -43,10 +38,18 @@ public class RedisSubscriber implements MessageListener {
 
         try {
             method.invoke(argument);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Object convertBodyToParameter(byte[] body, Class<?> parameterType) throws IOException, ClassNotFoundException {
+        return parameterType.cast(convertByteBodyToObject(body));
+    }
+
+    private Object convertByteBodyToObject(byte[] body) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream bis = new ByteArrayInputStream(body);
+        ObjectInputStream objectInputStream = new ObjectInputStream(bis);
+        return objectInputStream.readObject();
     }
 }
