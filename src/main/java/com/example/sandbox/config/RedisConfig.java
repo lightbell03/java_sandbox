@@ -1,6 +1,7 @@
 package com.example.sandbox.config;
 
 import com.example.sandbox.config.annotation.RedisListener;
+import com.example.sandbox.config.publisher.RedisPublisher;
 import com.example.sandbox.config.subsriber.RedisSubscriber;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -58,5 +59,10 @@ public class RedisConfig {
         }
 
         return container;
+    }
+
+    @Bean
+    public RedisPublisher redisPublisher(RedisTemplate<String, Object> redisTemplate) {
+        return new RedisPublisher(redisTemplate);
     }
 }
