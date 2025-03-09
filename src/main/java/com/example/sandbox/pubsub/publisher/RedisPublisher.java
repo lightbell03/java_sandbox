@@ -1,4 +1,4 @@
-package com.example.sandbox.config.publisher;
+package com.example.sandbox.pubsub.publisher;
 
 import org.springframework.data.redis.core.RedisTemplate;
 

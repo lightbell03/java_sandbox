@@ -1,4 +1,4 @@
-package com.example.sandbox.config.annotation;
+package com.example.sandbox.pubsub.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
